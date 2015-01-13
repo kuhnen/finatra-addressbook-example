@@ -62,4 +62,10 @@ class AddressBookApiSpec extends ApiSpec {
     response.code should equal(200)
     read[AddressBook](response.body) shouldEqual bookUser
   }
+
+  "GET /addressBooks" should "respond with 500 if something bad happens with the server" in {
+    (businessMocked.get _).expects("bumm!").returning(Future(throw new RuntimeException("We are sorry but the server might have exploded")))
+    get("/addressBooks/bumm!")
+    response.code should equal(500)
+  }
 }
