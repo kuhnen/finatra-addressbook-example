@@ -1,4 +1,4 @@
-package com.github.kuhnen.server.util
+package com.github.kuhnen.util
 
 import com.github.kuhnen.pojo.{AddressBook, User, Address}
 import org.json4s.DefaultFormats

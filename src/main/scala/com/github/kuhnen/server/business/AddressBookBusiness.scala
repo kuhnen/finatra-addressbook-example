@@ -28,7 +28,7 @@ trait AddressBookBusiness {
   //but the DB will be responsible about the key creation. Not the best idea
   def insert(user: User): Future[dao.Id] = dao.insert(user)
 
-  def update(id: String, user: User) = dao.update(AddressBook(id, user))
+  def update(id: String, user: User) = dao.update(id, AddressBook(id, user))
 
   def delete(id: String): Future[Unit] = dao.delete(id)
 

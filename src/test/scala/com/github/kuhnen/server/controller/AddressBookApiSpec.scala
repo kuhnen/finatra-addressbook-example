@@ -1,10 +1,10 @@
 package com.github.kuhnen.server.controller
 
 
+import com.github.kuhnen.CommonTraits
 import com.github.kuhnen.pojo.AddressBook
-import com.github.kuhnen.server.CommonTraits
 import com.github.kuhnen.server.business.AddressBookBusiness
-import com.github.kuhnen.server.util.AddressBookTest._
+import com.github.kuhnen.util.AddressBookTest._
 import com.twitter.finatra.FinatraServer
 import com.twitter.finatra.test.SpecHelper
 import com.twitter.util.Future

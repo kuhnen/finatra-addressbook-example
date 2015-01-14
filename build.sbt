@@ -23,4 +23,6 @@ scalacOptions ++= Seq(
   "-feature",
   "-language:implicitConversions")
 
+instrumentSettings
+
 fork := true
