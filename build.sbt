@@ -19,4 +19,8 @@ libraryDependencies ++= Seq(
 resolvers +=
   "Twitter" at "http://maven.twttr.com"
 
+scalacOptions ++= Seq(
+  "-feature",
+  "-language:implicitConversions")
+
 fork := true
