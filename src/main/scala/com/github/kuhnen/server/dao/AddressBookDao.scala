@@ -20,23 +20,27 @@ class AddressBookDaoImpl extends AddressBookDao {
 
 
 trait AddressBookDao extends DB[String, AddressBook] {
-  implicit def dbId(addressBook: AddressBook) = UUID.nameUUIDFromBytes(addressBook.toString.getBytes()).toString
+  def newId(addressBook: AddressBook) = UUID.nameUUIDFromBytes(addressBook.toString.getBytes()).toString
+  def valueWithNewId(id: String, addressBook: AddressBook) = addressBook.copy(id = id)
+
 }
 
 
 trait DB[K, V] {
 
   type Id = K
-  implicit def dbId(v: V): K
+  def newId(v: V): K
+  def valueWithNewId(id: K, value: V): V
 
   protected var data: Map[K, V]
 
   def select(id: K): Future[Option[V]] = Future { data.get(id) }
 
   def insert(value: V)(implicit tag: ClassTag[K]): Future[K] = Future {
-    val key: K = value
-    data = data.updated(key, value)
-    key
+    val id = newId(value)
+    val valueWithId = valueWithNewId(id, value)
+    data = data.updated(id, valueWithId)
+    id
   }
 
   def update(id: K, value: V): Future[Unit] =  Future { data = data.updated(id, value) }

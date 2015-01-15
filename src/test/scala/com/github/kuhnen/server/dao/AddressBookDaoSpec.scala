@@ -25,11 +25,11 @@ class AddressBookDaoSpec extends CommonTraits {
   it should "insert a addressBook and retrieve" in {
     val resFut: SFuture[dao.Id] = dao.insert(bookUser)
     whenReady(resFut) { res =>
-      res shouldEqual dao.dbId(bookUser)
+      res shouldEqual dao.newId(bookUser)
     }
-    val selectedFut: SFuture[Option[AddressBook]] = dao.select(dao.dbId(bookUser))
+    val selectedFut: SFuture[Option[AddressBook]] = dao.select(dao.newId(bookUser))
     whenReady(selectedFut) { selected =>
-      selected shouldBe Some(bookUser)
+      selected shouldBe Some(bookUser.copy(id = dao.newId(bookUser)))
 
     }
   }
@@ -38,12 +38,12 @@ class AddressBookDaoSpec extends CommonTraits {
     val resFut: SFuture[dao.Id] = dao.insert(bookUser)
     var id: dao.Id = ""
     whenReady(resFut) { res =>
-      res shouldEqual dao.dbId(bookUser)
+      res shouldEqual dao.newId(bookUser)
       id = res
     }
-    val selectedFut: SFuture[Option[AddressBook]] = dao.select(dao.dbId(bookUser))
+    val selectedFut: SFuture[Option[AddressBook]] = dao.select(dao.newId(bookUser))
     whenReady(selectedFut) { selected =>
-      selected shouldBe Some(bookUser)
+      selected shouldBe Some(bookUser.copy(id = id))
 
     }
 
@@ -79,19 +79,20 @@ class AddressBookDaoSpec extends CommonTraits {
 
   it should "Delete" in {
     val resFut: SFuture[dao.Id] = dao.insert(bookUser)
+    val id = dao.newId(bookUser)
     whenReady(resFut) { res =>
-      res shouldEqual dao.dbId(bookUser)
+      res shouldEqual dao.newId(bookUser)
     }
-    val selectedFut: SFuture[Option[AddressBook]] = dao.select(dao.dbId(bookUser))
+    val selectedFut: SFuture[Option[AddressBook]] = dao.select(dao.newId(bookUser))
     whenReady(selectedFut) { selected =>
-      selected shouldBe Some(bookUser)
+      selected shouldBe Some(bookUser.copy(id = id))
 
     }
-    val deleteddFut: SFuture[Unit] = dao.delete(dao.dbId(bookUser))
+    val deleteddFut: SFuture[Unit] = dao.delete(dao.newId(bookUser))
     whenReady(deleteddFut) { deleted =>
       deleted  shouldBe (())
     }
-    val selectedFutNone: SFuture[Option[AddressBook]] = dao.select(dao.dbId(bookUser))
+    val selectedFutNone: SFuture[Option[AddressBook]] = dao.select(dao.newId(bookUser))
     whenReady(selectedFutNone) { selected =>
       selected shouldBe empty
 
